@@ -14,7 +14,7 @@ function Schedules({ data, sport }) {
             setYear(key)
             console.log(key, 'key')
         }
-    }, [data])
+    }, [sport])
 
     console.log(year, 'year')
 
