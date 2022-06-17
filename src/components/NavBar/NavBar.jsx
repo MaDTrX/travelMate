@@ -59,7 +59,7 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
 
   function handleLogOut() {
     userService.logOut();
-    window.open("http://localhost:5000/auth/logout", "_self");
+    window.open("https://shortstravel.herokuapp.com/auth/logout", "_self");
     setUser(null);
   }
   async function handleNav(evt) {
