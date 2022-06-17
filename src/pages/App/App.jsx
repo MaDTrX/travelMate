@@ -54,7 +54,9 @@ export default function App() {
           {comp ?
             <Schedules data={data} sport={sport}/>
             :
-            <div><h1> Welcome to Ncaa Schedules</h1></div>
+            <div style={{'width':'100%', 'height': '100vh'}}>
+            <img src={require('../../assets/shortsTravel.webp')} alt='SHORTS-TRAVEL' width='100%' height='100%'></img>
+            </div>
           }
         </>
         :
