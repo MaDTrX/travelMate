@@ -22,11 +22,11 @@ const sportCode = {
     "Women's Outdoor Track": 'WTO',
     "Women's Volleyball": 'WVB',
 }
-const sportList = () => {
+export function sportList () {
     return [ "Baseball", "Football","Men's Basketball", "Men's Gymnastics", "Men's Ice Hockey","Men's Soccer", "Men's Track & Field","Men's Indoor Track","Men's Outdoor Track", "Men's Volleyball", "Women's Basketball", "Women's Gymnastics","Women's Ice Hockey","Women's Soccer","Women's Softball", "Women's Track & Field","Women's Indoor Track", "Women's Outdoor Track", "Women's Volleyball",] 
 }
 
- function findAllConferences () {
+export function findAllConferences () {
     const conf = []
     for(let i = 0; i < ref.length; i++) {
         if (ref[i].conferenceName) {
@@ -36,7 +36,7 @@ const sportList = () => {
    const newArr = [...new Set(conf)]
    return newArr
 }
-function findSchoolsByConference (conference) {
+export  function findSchoolsByConference (conference) {
     let result = new Set()
     for (let i = 0; i < ref.length; i++) {
         if ( conference === ref[i].conferenceName ) {
@@ -46,7 +46,7 @@ function findSchoolsByConference (conference) {
     return [...result]
 }
 
-function findSchoolSports (school) {
+export function findSchoolSports (school) {
     let result = []
     for (let i = 0; i < ref.length; i++) {
         if (ref[i].schoolName === school) {
@@ -61,7 +61,7 @@ function findSchoolSports (school) {
         return result
 }
 
-function findAllSchools () {
+export function findAllSchools () {
     let result = new Set()
     for (let i = 0; i < ref.length; i++) {
         result.add(ref[i].schoolName)
@@ -69,7 +69,7 @@ function findAllSchools () {
     return [...result]
 }
 
-function pullSchoolSportSchedules(school, sport) {
+export function pullSchoolSportSchedules(school, sport) {
     let result
     for (let i = 0; i < schedules.length; i++) {
         if (schedules[i].schoolName === school) {
@@ -84,15 +84,4 @@ function pullSchoolSportSchedules(school, sport) {
     }
     return result
  }
-
-
-module.exports = {
-    findAllConferences,
-    findSchoolsByConference,
-    findSchoolSports,
-    findAllSchools,
-    sportList,
-    pullSchoolSportSchedules,
-    // pullSportsSchedules,
-}
 

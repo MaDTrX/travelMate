@@ -10,12 +10,19 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Switch from '@mui/material/Switch';
 import SignUpForm from "../../components/SignUpForm/SignUpForm"
 import LoginForm from "../../components/LoginForm/LoginForm"
-import data from '../../seed/data'
+import {
+  findAllConferences,
+  findSchoolsByConference,
+  findSchoolSports,
+  findAllSchools,
+  sportList,
+  pullSchoolSportSchedules,
+} from '../../seed/data'
 
-const sportNav = data.sportList()
+const sportNav = sportList()
 
-const schoolNav = data.findAllSchools()
-const conferenceNav = data.findAllConferences()
+const schoolNav = findAllSchools()
+const conferenceNav = findAllConferences()
 
 export default function NavBar({ user, hide, setUser, setData, checked, handleChange, schools, home, setSport, setComp}) {
   const [accordion, setAccordion] = React.useState([])
@@ -59,7 +66,7 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
     window.scroll({ top: 0, left: 0, behavior: 'smooth' })
     conferenceNav.forEach(async (conf) => {
       if (evt.target.value === conf) {
-        const schools = data.findSchoolsByConference(conf)
+        const schools = findSchoolsByConference(conf)
         // setNavState(true)
         setAccordion(schools)
         return
@@ -68,7 +75,7 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
 
     schoolNav.forEach(async (school) => {
       if (evt.target.value === school) {
-        const sports = data.findSchoolSports(school)
+        const sports = findSchoolSports(school)
         setCollege(school)
         setAccordion(sports)
         return
@@ -79,7 +86,7 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
       if (evt.target.value === sport) {
         setVh('')
         setComp('schedules')
-        setData(data.pullSchoolSportSchedules(college, sport))
+        setData(pullSchoolSportSchedules(college, sport))
         setSport(sport)
         setNavState(false)
         setAccordion([])
