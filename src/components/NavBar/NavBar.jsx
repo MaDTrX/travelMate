@@ -10,18 +10,27 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Switch from '@mui/material/Switch';
 import SignUpForm from "../../components/SignUpForm/SignUpForm"
 import LoginForm from "../../components/LoginForm/LoginForm"
+import data from '../../seed/data'
 
+const sportNav = data.sportList()
 
+const schoolNav = data.findAllSchools()
+const conferenceNav = data.findAllConferences()
 
-export default function NavBar({ user, hide, setUser, setData, checked, handleChange, schools, home }) {
-//   const [accordion, setAccordion] = React.useState([])
+export default function NavBar({ user, hide, setUser, setData, checked, handleChange, schools, home, setSport, setComp}) {
+  const [accordion, setAccordion] = React.useState([])
   const [credentials, setCredentials] = React.useState(null)
-//   const [subDivision, setSubDivision] = React.useState('')
+  const [college, setCollege] = React.useState('')
+  const [vh, setVh] = React.useState('')
   const [navState, setNavState] = React.useState(false)
-//   const accordionNav = accordion.map(el => <Grid item xs={12} md={12} lg={6}><Button onClick={handleNav} value={el} fullWidth={true}>{el}</Button></Grid>)
+  const accordionNav = accordion.map(el => <Grid item xs={12} md={6} lg={6}><Button variant='contained' onClick={handleNav} value={el} fullWidth={true}>{el}</Button></Grid>)
 
   React.useEffect(() => {
-    if (hide === undefined) setNavState(false)
+    if (hide === undefined) {
+      setVh('')
+      setNavState(false)
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' })
+    }
   }, [hide])
 
   function handleCred(evt) {
@@ -34,41 +43,71 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
 
   function handleStyle() {
     if (checked) {
-      return 'rgb(0, 0, 0, 0)'
+      return 'rgb(49, 49, 49)'
     }
     else {
-      return 'rgba(0, 0, 0, 0)'
+      return 'rgb(242, 241, 231)'
     }
   }
 
   function handleLogOut() {
     userService.logOut();
+    window.open("http://localhost:5000/auth/logout", "_self");
     setUser(null);
+  }
+  async function handleNav(evt) {
+    window.scroll({ top: 0, left: 0, behavior: 'smooth' })
+    conferenceNav.forEach(async (conf) => {
+      if (evt.target.value === conf) {
+        const schools = data.findSchoolsByConference(conf)
+        // setNavState(true)
+        setAccordion(schools)
+        return
+      } 
+    })
+
+    schoolNav.forEach(async (school) => {
+      if (evt.target.value === school) {
+        const sports = data.findSchoolSports(school)
+        setCollege(school)
+        setAccordion(sports)
+        return
+      } 
+    })
+    
+    sportNav.forEach(async (sport) => {
+      if (evt.target.value === sport) {
+        setVh('')
+        setComp('schedules')
+        setData(data.pullSchoolSportSchedules(college, sport))
+        setSport(sport)
+        setNavState(false)
+        setAccordion([])
+        return
+      } 
+    })
   }
 
 
-
-
   function handleAccordion(evt) {
-    if (evt.target.value === 'fbs') {
+    if (evt.target.value === 'conferences') {
+      setVh('100vh')
+      // console.log(evt.target.value)
       setNavState(true)
-    //   setAccordion(fbsConferences)
-    //   setSubDivision(evt.target.value)
-
-    } else if (evt.target.value === 'fcs') {
-      setNavState(true)
-    //   setAccordion(fcsConferences)
-    //   setSubDivision(evt.target.value)
+      setAccordion(conferenceNav)
 
     } else if (evt.target.value === 'logIn' || evt.target.value === 'signUp') {
+      setVh('100vh')
       setNavState(true)
     }
   }
 
+
+
   return (
-    <Accordion sx={{ background: handleStyle, width: '100%', position: 'absolute', top: '0', boxShadow:'none'}} expanded={navState} onClick={handleAccordion}>
+    <Accordion sx={{ background: handleStyle, width: '100%', position: 'absolute', top: '0', boxShadow:'none', height: vh, zIndex: '2'}} expanded={navState} onClick={handleAccordion}>
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
+        expandIcon={<ExpandMoreIcon sx={{ color: '#2196f3' }} />}
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
@@ -81,11 +120,8 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
                   onChange={handleChange}
                   inputProps={{ 'aria-label': 'controlled' }}
                 />
-                <Button onClick={handleAccordion} variant="text" value="home"></Button>
-                <Button onClick={handleCred} sx={{ color: 'black',  letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }} variant="text" value="signUp">FLIGHTS</Button>
-            <Button onClick={handleCred} sx={{ color: 'black',  letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }}  variant="text" value="logIn">HOTEL</Button>
-            <Button onClick={handleCred} sx={{ color: 'black',  letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }}  variant="text" value="logIn">TOURS</Button>
-        
+                <Button onClick={handleAccordion} variant="text" value="home"><img src={require('../../assets/shorts-logo.png')} alt='SHORTS-TRAVEL' width='30px' height='30px'></img></Button>
+                <Button onClick={handleCred} sx={{ letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }} variant="text" value="conferences">CONFERENCES</Button>
               </Grid>
               <Grid
                 item xs={6}
@@ -94,8 +130,8 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
                 justifyContent="flex-end"
                 alignItems="center"
               >
-        
-                <Button onClick={handleLogOut}  sx={{ color: 'black',  letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }}  variant="text" value="account">LOGOUT</Button>
+
+                <Button onClick={handleLogOut} sx={{ letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }} variant="text" value="account">LOGOUT</Button>
 
               </Grid>
             </Grid>
@@ -107,31 +143,31 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
               onChange={handleChange}
               inputProps={{ 'aria-label': 'controlled' }}
             />
-            <Button onClick={handleCred} sx={{ color: 'black',  letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }} variant="text" value="signUp">SIGN UP</Button>
-            <Button onClick={handleCred} sx={{ color: 'black',  letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }}  variant="text" value="logIn">LOG IN</Button>
+            <Button onClick={handleCred} sx={{ letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }} variant="text" value="signUp">SIGN UP</Button>
+            <Button onClick={handleCred} sx={{ letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }} variant="text" value="logIn">LOG IN</Button>
 
           </>
         }
       </AccordionSummary>
-      <Accordion sx={{ background: handleStyle }}>
-        <AccordionDetails  sx={{ width: {md: "50%", sm: "100%"}, margin: "auto"}}>
-            <Grid
-              container
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 1, md: 1 }}
-              alignItems="center"
-    
-            >
-              {user ?
-                <>
-                  {/* {accordionNav} */}
-                </>
-                :
-                <>
-                  {credentials}
-                </>
-              }
-            </Grid>
+      <Accordion sx={{ background: handleStyle, boxShadow: 'none' }}>
+        <AccordionDetails sx={{ width: !user ? { md: "50%", sm: "90%" } : { md: "90%", sm: "90%" }, margin: 'auto' }} >
+          <Grid
+            container
+            rowSpacing={1}
+            columnSpacing={{ xs: 1, sm: 1, md: 1 }}
+            alignItems="center"
+
+          >
+            {user ?
+              <>
+                {accordionNav}
+              </>
+              :
+              <>
+                {credentials}
+              </>
+            }
+          </Grid>
         </AccordionDetails>
       </Accordion>
     </Accordion>

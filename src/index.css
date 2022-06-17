@@ -3,3 +3,21 @@ body, html {
   height: 100vh;
 
 }
+::-webkit-scrollbar {
+  width: 12.5px;
+}
+
+/* Track / */
+::-webkit-scrollbar-track {
+  background: rgba(4, 3, 3, 0.051);
+}
+
+/* / Handle / */
+::-webkit-scrollbar-thumb {
+  background: rgb(51, 113, 161);
+}
+
+/* / Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(65, 65, 65);
+}

@@ -22,7 +22,9 @@ router.get("/login/failed", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.logout();
+  req.logout(() => {
+    console.log('logged out')
+  });
   res.redirect(CLIENT_URL);
 });
 
