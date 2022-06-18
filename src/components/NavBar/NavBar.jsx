@@ -17,6 +17,7 @@ import {
   findAllSchools,
   sportList,
   pullSchoolSportSchedules,
+  pullSchools
 } from '../../seed/data'
 
 const sportNav = sportList()
@@ -24,13 +25,14 @@ const sportNav = sportList()
 const schoolNav = findAllSchools()
 const conferenceNav = findAllConferences()
 
-export default function NavBar({ user, hide, setUser, setData, checked, handleChange, schools, home, setSport, setComp}) {
+export default function NavBar({ user, hide, setUser, setData, checked, handleChange, setYear, setSport, setComp, setSchool }) {
   const [accordion, setAccordion] = React.useState([])
   const [credentials, setCredentials] = React.useState(null)
   const [college, setCollege] = React.useState('')
   const [vh, setVh] = React.useState('')
   const [navState, setNavState] = React.useState(false)
-  const accordionNav = accordion.map(el => <Grid item xs={12} md={6} lg={6}><Button variant='contained' onClick={handleNav} value={el} fullWidth={true}>{el}</Button></Grid>)
+  const [yearState, setYearState] = React.useState({})
+  const accordionNav = accordion.map(el => <Grid item xs={12} md={6} lg={6}><Button variant='contained' sx={{background: yearState[el] }} onClick={handleNav} value={el} fullWidth={true}>{el}</Button></Grid>)
 
   React.useEffect(() => {
     if (hide === undefined) {
@@ -70,36 +72,44 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
         // setNavState(true)
         setAccordion(schools)
         return
-      } 
+      }
     })
 
     schoolNav.forEach(async (school) => {
       if (evt.target.value === school) {
         const sports = findSchoolSports(school)
         setCollege(school)
+        setYearState(pullSchools(school))
         setAccordion(sports)
         return
-      } 
+      }
     })
-    
+
     sportNav.forEach(async (sport) => {
       if (evt.target.value === sport) {
+        let newData = pullSchoolSportSchedules(college, sport)
+        console.log(sport)
+        console.log(newData)
         setVh('')
-        setComp('schedules')
-        setData(pullSchoolSportSchedules(college, sport))
-        setSport(sport)
         setNavState(false)
+        setData(newData)
+        setComp('schedules')
+        setSport(sport)
+        setSchool(college)
+        let yearConfig = Object.keys(newData)
+        setYear(yearConfig[0])
         setAccordion([])
         return
-      } 
+      }
     })
   }
+
+  // console.log(yearState)
 
 
   function handleAccordion(evt) {
     if (evt.target.value === 'conferences') {
       setVh('100vh')
-      // console.log(evt.target.value)
       setNavState(true)
       setAccordion(conferenceNav)
 
@@ -112,7 +122,7 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
 
 
   return (
-    <Accordion sx={{ background: handleStyle, width: '100%', position: 'absolute', top: '0', boxShadow:'none', height: vh, zIndex: '2'}} expanded={navState} onClick={handleAccordion}>
+    <Accordion sx={{ background: handleStyle, width: '100%', position: 'absolute', top: '0', boxShadow: 'none', height: vh, zIndex: '2' }} expanded={navState} onClick={handleAccordion}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon sx={{ color: '#2196f3' }} />}
         aria-controls="panel1a-content"

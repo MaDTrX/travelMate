@@ -12,8 +12,6 @@ passport.use(
             callbackURL: process.env.GOOGLE_CALLBACK,
         },
         function (accessToken, refreshToken, profile, cb) {
-            console.log('hi')
-            console.log(profile)
             User.findOne({ authId: profile.id }).then(async function (user) {
 
                 if (user) return cb(null, user);
@@ -45,7 +43,6 @@ passport.use(
             callbackURL: "https://shortstravel.herokuapp.com/auth/github/callback",
         },
         function (accessToken, refreshToken, profile, cb) {
-            // console.log(profile)
             User.findOne({ authId: profile.id }).then(async function (user) {
 
                 if (user) return cb(null, user);
