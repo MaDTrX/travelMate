@@ -3,20 +3,17 @@ import Box from '@mui/material/Box';
 // import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import { CSVLink } from "react-csv";
 
-function Schedules({ data, sport }) {
-    let [year, setYear] = React.useState('')
-    console.log(sport)
-   
- 
-    React.useState(() => {
-        for (let key in data) {
-            setYear(key)
-            console.log(key, 'key')
-        }
-    }, [data])
+const headers = [
+    { label: "CompEventDate", key: "date" },
+    { label: "CompEventTime", key: "time" },
+    { label: "CompEventName", key: "opponent" },
+    { label: "CompEventLocName", key: "location" },
+    { label: "VenueHostStatus", key: "at" },
+  ];
 
-    console.log(year, 'year')
+function Schedules({ data, sport, year, school }) {
 
     let competitions = data[year]?.map(game => <Box sx={{ width: '100%', height: 100, display: 'flex', justifyContent: 'center', marginTop: '10px', backgroundColor: 'white' }}>
         <Grid container spacing={1} sx={{ margin: 'auto' }}>
@@ -39,7 +36,7 @@ function Schedules({ data, sport }) {
                         <Button  sx={{ fontSize: '12px' }} variant="text" value="location">{game.time}</Button>
                     </Grid>
                     <Grid item >
-                        <Button  ssx={{ fontSize: '12px' }} variant="text" value="location">{game.location}</Button>
+                        <Button  ssx={{ fontSize: '8px' }} variant="text" value="location">{game.location}</Button>
                     </Grid>
                 </Grid>
             </Grid>
@@ -64,7 +61,7 @@ function Schedules({ data, sport }) {
 
     return (
         <>
-            <div style={{ marginTop: '100px' }}>{year} {sport} Schedule</div>
+            <div style={{ marginTop: '100px' }}> {school} {year} {sport} Schedule <CSVLink data={data[year]} filename={`${school} ${sport} ${year}.csv`} headers={headers}>Download CSV</CSVLink></div>
             {competitions}
         </>
     )

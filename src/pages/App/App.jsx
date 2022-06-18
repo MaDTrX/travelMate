@@ -8,13 +8,16 @@ export default function App() {
   const [user, setUser] = React.useState(getUser());
   const [hide, setHide] = React.useState()
   const [data, setData] = React.useState()
+  const [year, setYear] = React.useState()
   const [sport, setSport] = React.useState()
   const [checked, setChecked] = React.useState(false)
   const [comp, setComp] = React.useState()
+  const [school, setSchool] = React.useState()
+
 
   React.useEffect(() => {
     const reqUser = () => {
-      fetch("https://shortstravel.herokuapp.com/auth/login/success", {
+      fetch("http://localhost:5000/auth/login/success", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -50,9 +53,9 @@ export default function App() {
     <main onClick={handleHide} style={{ backgroundColor: checked ? 'rgb(49, 49, 49)' : 'rgb(242, 241, 231)', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       {user ?
         <>
-          <NavBar hide={hide} handleChange={handleChange} checked={checked} user={user} setUser={setUser} setData={setData} setSport={setSport} setComp={setComp} />
+          <NavBar hide={hide} handleChange={handleChange} checked={checked} user={user} setUser={setUser} setData={setData} setSport={setSport} setComp={setComp} setYear={setYear} setSchool={setSchool}/>
           {comp ?
-            <Schedules data={data} sport={sport}/>
+            <Schedules data={data} sport={sport} year={year} school={school} />
             :
             <div style={{'width':'100%', 'height': '100vh'}}>
             <img src={require('../../assets/shortsTravel.webp')} alt='SHORTS-TRAVEL' width='100%' height='100%'></img>
