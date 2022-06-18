@@ -4,11 +4,11 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import GoogleIcon from '@mui/icons-material/Google';
 export default function Oauth () {
     const google = () => {
-      window.open("https://shortstravel.herokuapp.com/auth/github", "_self");
+      window.open("https://shortstravel.herokuapp.com/auth/google", "_self");
     };
   
     const github = () => {
-      window.open("hhttps://shortstravel.herokuapp.com/auth/github", "_self");
+      window.open("https://shortstravel.herokuapp.com/auth/github", "_self");
     };
   
     return (
