@@ -17,7 +17,7 @@ const headers = [
 
 function Schedules({ data, sport, year, school }) {
 
-    let competitions = data[year]?.map(game => <Box sx={{ width: '100%', height: 100, display: 'flex', justifyContent: 'center', marginTop: '10px', backgroundColor: 'white' }}>
+    let competitions = data[`${year}`].map(game => <Box sx={{ width: '100%', height: 100, display: 'flex', justifyContent: 'center', marginTop: '10px', backgroundColor: 'white' }}>
         <Grid container spacing={1} sx={{ margin: 'auto' }}>
             <Grid item md={1} >
                 <Button sx={{ width: 100, height: 100 }}></Button>
