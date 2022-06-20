@@ -12,10 +12,12 @@ const headers = [
     { label: "CompEventName", key: "opponent" },
     { label: "CompEventLocName", key: "location" },
     { label: "VenueHostStatus", key: "at" },
-  ];
+];
 
 
 function Schedules({ data, sport, year, school }) {
+    console.log(data[`${year}`])
+    console.log(year)
 
     let competitions = data[`${year}`].map(game => <Box sx={{ width: '100%', height: 100, display: 'flex', justifyContent: 'center', marginTop: '10px', backgroundColor: 'white' }}>
         <Grid container spacing={1} sx={{ margin: 'auto' }}>
@@ -25,20 +27,20 @@ function Schedules({ data, sport, year, school }) {
             <Grid item md={3} container >
                 <Grid item container direction="column" spacing={1}>
                     <Grid item>
-                        <Button variant="text" value="dateTime">{game.date}</Button>
+                        <Button sx={{ fontSize: '14px' }} variant="text" value="dateTime">{game.date}</Button>
                     </Grid>
                     <Grid item >
-                        <Button variant="text" value="opponent">{game.at} {game.opponent}</Button>
+                        <Button sx={{ fontSize: '14px' }} variant="text" value="opponent">{game.at} {game.opponent}</Button>
                     </Grid>
                 </Grid>
             </Grid>
             <Grid item md={4}>
                 <Grid item container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: 100 }} spacing={1}>
                     <Grid item >
-                        <Button  sx={{ fontSize: '12px' }} variant="text" value="location">{game.time}</Button>
+                        <Button sx={{ fontSize: '12px' }} variant="text" value="location">{game.time}</Button>
                     </Grid>
                     <Grid item >
-                        <Button  ssx={{ fontSize: '8px' }} variant="text" value="location">{game.location}</Button>
+                        <Button sx={{ fontSize: '14px' }} variant="text" value="location">{game.location}</Button>
                     </Grid>
                 </Grid>
             </Grid>
