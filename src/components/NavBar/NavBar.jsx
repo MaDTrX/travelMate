@@ -10,6 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Switch from '@mui/material/Switch';
 import SignUpForm from "../../components/SignUpForm/SignUpForm"
 import LoginForm from "../../components/LoginForm/LoginForm"
+
 import {
   findAllConferences,
   findSchoolsByConference,
@@ -96,8 +97,16 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
         setComp('schedules')
         setSport(sport)
         setSchool(college)
-        let yearConfig = Object.keys(newData)
-        setYear(yearConfig[0])
+        let yearConfig
+        for (let key in newData) {
+          if (key === '2022'|| key === '2022-23') {
+           yearConfig = key
+        } 
+         if (key === '2021'|| key === '2021-22') {
+          yearConfig = key
+        }
+        }
+        setYear(yearConfig)
         setAccordion([])
         return
       }
@@ -116,7 +125,7 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
     } else if (evt.target.value === 'logIn' || evt.target.value === 'signUp') {
       setVh('100vh')
       setNavState(true)
-    }
+    }    
   }
 
 
@@ -137,7 +146,7 @@ export default function NavBar({ user, hide, setUser, setData, checked, handleCh
                   onChange={handleChange}
                   inputProps={{ 'aria-label': 'controlled' }}
                 />
-                <Button onClick={handleAccordion} variant="text" value="home"><img src={require('../../assets/shorts-logo.png')} alt='SHORTS-TRAVEL' width='30px' height='30px'></img></Button>
+                <a href="http://localhost:3000/"><img src={require('../../assets/shorts-logo.png')} alt='SHORTS-TRAVEL' width='30px' height='30px'></img></a>
                 <Button onClick={handleCred} sx={{ letterSpacing: '2px', fontWeight: '700', fontSize: '16px' }} variant="text" value="conferences">CONFERENCES</Button>
               </Grid>
               <Grid

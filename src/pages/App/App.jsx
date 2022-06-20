@@ -17,7 +17,7 @@ export default function App() {
 
   React.useEffect(() => {
     const reqUser = () => {
-      fetch("https://shortstravel.herokuapp.com/auth/login/success", {
+      fetch("http://localhost:3000/auth/login/success", {
         method: "GET",
         credentials: "include",
         headers: {
