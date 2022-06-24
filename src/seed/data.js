@@ -92,16 +92,16 @@ const sportCode = {
 
                 let yearState = schedules[i]['sports'][key]
 
-                if (JSON.stringify(yearState) === '{}') {
+                if (Object.values(yearState).length === 0) {
                     result[key] = 'grey'
                 } 
 
-                if (yearState['2022'] || yearState['2022-23']) {
+                if (yearState['2022']) {
 
                     result[key] = 'rgb(20,192,86)'
 
                 } 
-                 if (yearState['2021'] || yearState['2021-22']) {
+                 if (yearState['2021']) {
                     result[key] = 'rgb(25,118,210)'
                 }
 
